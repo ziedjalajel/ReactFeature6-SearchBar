@@ -14,43 +14,42 @@ import {
   GlobalStyle,
   ShopImage,
   ThemeButton,
-  Title
+  Title,
 } from "./styles";
 
-const lightTheme = {
-  mainColor: "#242424", // main font color
-  backgroundColor: "#fefafb", // main background color
-  pink: "#ff85a2",
-  red: "#ff3232"
-};
-
-const darkTheme = {
-  mainColor: "#fefafb", // main font color
-  backgroundColor: "#242424", // main background color
-  pink: "#ff85a2",
-  red: "#ff3232"
+const theme = {
+  light: {
+    mainColor: "#242424", // main font color
+    backgroundColor: "#fefafb", // main background color
+    pink: "#ff85a2",
+    red: "#ff3232",
+  },
+  dark: {
+    mainColor: "#fefafb", // main font color
+    backgroundColor: "#242424", // main background color
+    pink: "#ff85a2",
+    red: "#ff3232",
+  },
 };
 
 function App() {
-  const [theme, setTheme] = useState("light");
+  const [currentTheme, setCurrentTheme] = useState("light");
   const [cookie, setCookie] = useState(null);
   const [_cookies, setCookies] = useState(cookies);
 
-  const deleteCookie = cookieId => {
-    const updatedCookies = _cookies.filter(cookie => cookie.id !== +cookieId);
+  const deleteCookie = (cookieId) => {
+    const updatedCookies = _cookies.filter((cookie) => cookie.id !== +cookieId);
     setCookies(updatedCookies);
     setCookie(null);
   };
 
-  const selectCookie = cookieId => {
-    const selectedCookie = cookies.find(cookie => cookie.id === cookieId);
+  const selectCookie = (cookieId) => {
+    const selectedCookie = cookies.find((cookie) => cookie.id === cookieId);
     setCookie(selectedCookie);
   };
 
-  const toggleTheme = () => {
-    if (theme === "light") setTheme("dark");
-    else setTheme("light");
-  };
+  const toggleTheme = () =>
+    setCurrentTheme(currentTheme === "light" ? "dark" : "light");
 
   const setView = () => {
     if (cookie)
@@ -66,9 +65,11 @@ function App() {
   };
 
   return (
-    <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
+    <ThemeProvider theme={theme[currentTheme]}>
       <GlobalStyle />
-      <ThemeButton onClick={toggleTheme}>Dark Mode</ThemeButton>
+      <ThemeButton onClick={toggleTheme}>
+        {currentTheme === "light" ? "Dark" : "Light"} Mode
+      </ThemeButton>
       <>
         <Title>Cookies and Beyond</Title>
         <Description>Where cookie maniacs gather</Description>
