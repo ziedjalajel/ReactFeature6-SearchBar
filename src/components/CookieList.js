@@ -10,20 +10,13 @@ import cookies from "../cookies";
 // Styling
 import { ListWrapper } from "../styles";
 
-const CookieList = (props) => {
+const CookieList = () => {
   const [_cookies, setCookies] = useState(cookies);
   const [query, setQuery] = useState("");
 
   const cookieList = _cookies
     .filter((cookie) => cookie.name.includes(query))
-    .map((cookie) => (
-      <CookieItem
-        cookie={cookie}
-        key={cookie.id}
-        deleteCookie={props.deleteCookie}
-        selectCookie={props.selectCookie}
-      />
-    ));
+    .map((cookie) => <CookieItem cookie={cookie} key={cookie.id} />);
 
   return (
     <div>
