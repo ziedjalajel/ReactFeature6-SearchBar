@@ -156,40 +156,27 @@ const searchCookies = query => {
 };
 ```
 
-4. It's working! But it's case sensitive! How can we fix that? By using `toLowerCase` or `toUpperCase` on both `cookie.name` and `query`. This guarantees that there is no issue with the case:
+4. It's working!!! Now to see those changes, we will use `setCookies` and pass it `filteredCookies`:
 
 ```javascript
 const searchCookies = query => {
   const filteredCookies = _cookies.filter(cookie =>
-    cookie.name.toLowerCase().includes(query.toLowerCase())
+    cookie.name.includes(query)
   );
-  console.log("App -> filteredCookies", filteredCookies);
+  setCookies(filteredCookies);
 };
 ```
 
-5. It's working!!! Now to see those changes, we will use `setCookies` and pass it `filteredCookies`:
+5. Now that's magic!!!
+
+6. But we have an issue.. if you delete the letters in the search bar, we're not getting our list back. Who can tell me why?
+
+7. That's because we're comparing to the already filtered list of cookies which is `_cookies`. We must **always** search through `cookies` which is the original list that we can't change:
 
 ```javascript
 const searchCookies = query => {
-  const filteredCookies = _cookies.filter(cookie =>
-    cookie.name.toLowerCase().includes(query.toLowerCase())
-  );
-  console.log("App -> filteredCookies", filteredCookies);
-};
-```
-
-6. Now that's magic!!!
-
-7. But we have an issue.. if you delete the letters in the search bar, we're not getting our list back. Who can tell me why?
-
-8. That's because we're comparing to the already filtered list of cookies which is `_cookies`. We must **always** search through `cookies` which is the original list that we can't change:
-
-```javascript
-const searchCookies = query => {
-  const filteredCookies = cookies.filter(cookie =>
-    cookie.name.toLowerCase().includes(query.toLowerCase())
-  );
-  console.log("App -> filteredCookies", filteredCookies);
+  const filteredCookies = cookies.filter(cookie => cookie.name.includes(query));
+  setCookies(filteredCookies);
 };
 ```
 
