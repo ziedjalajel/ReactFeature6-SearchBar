@@ -34,6 +34,15 @@ export const ListWrapper = styled.div`
   display: flex;
 `;
 
+export const SearchBarStyled = styled.input`
+  padding: 0.5rem;
+  margin-top: 10px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 40%;
+`;
+
 export const ThemeButton = styled.button`
   font-size: 1em;
   margin: 1.25em;
