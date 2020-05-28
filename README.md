@@ -12,15 +12,15 @@
 
 ```jsx
 <DetailWrapper>
-  <p onClick={props.deleteCookie}>Back to Cookies</p>
+  <p>Back to Cookies</p>
   <h1>{cookie.name}</h1>
 ```
 
-2. To render the list of cookies, we need to set `cookie` to `null`. So we can easily pass `props.deleteCookie` without passing anything to it:
+2. To render the list of cookies, we need to set `cookie` to `null` or any value that gives us `false`. So we can easily pass `props.selectCookie` without passing anything to it, this will set `cookie` to `undefined` which is `false`.
 
 ```jsx
 <DetailWrapper>
-  <p onClick={props.deleteCookie}>Back to Cookies</p>
+  <p onClick={props.selectCookie}>Back to Cookies</p>
   <h1>{cookie.name}</h1>
 ```
 
@@ -91,45 +91,30 @@ onChange={event => console.log(event.target.value)}
 
 6. Let's check our console, we'll find our value there!
 
-## Step 2: Search Cookies Method
+## Step 2: Query State
 
-1. What we'll do now is create a method that's triggered every time the user writes in **anything** in the search bar. This method will take the value the user entered as an argument and compare it to the names in our `cookies` list. So since we're dealing with `cookies`, this method must be placed in `App`.
-
-2. In `App.js`, create a `search` method that for now just logs the query, which is the value the user entered
+1. What we'll do now is create a query state and method. Every time the user writes **anything** in the search bar the value will be saved in `query`. 
 
 ```javascript
-const search = query => {
-  console.log(query);
-};
+  const [query, setQuery] = useState("");
 ```
 
-3. Now we will pass this method as a prop down two levels, `App` -> `CookieList` -> `SearchBar`. In `App`:
+2. Now we will pass `setQuery` as a prop to `SearchBar`.
 
 ```jsx
-<CookieList
-  cookies={_cookies}
-  deleteCookie={deleteCookie}
-  searchCookies={searchCookies}
-  selectCookie={selectCookie}
-/>
+<SearchBar setQuery={setQuery} />
 ```
 
-4. In `CookieList`:
-
-```jsx
-<SearchBar searchCookies={props.searchCookies} />
-```
-
-5. In `SearchBar`, pass the method to `onChange`:
+3. In `SearchBar`, pass the method to `onChange`. Now every time the user types in anything, the value will be saved in `query`.
 
 ```jsx
 <Search
   placeholder="Search for a cookie name"
-  onChange={event => props.searchCookies(event.target.value)}
+  onChange={event => props.setQuery(event.target.value)}
 />
 ```
 
-6. Check your console. It's working!
+4. Check your React Dev Tools. `query` is changing!
 
 ## Step 3: Search!
 
@@ -138,9 +123,8 @@ The way we want our method to work is that the user can enter any part of the co
 1. So we will `filter` over our `cookies`, but what will our condition be?
 
 ```javascript
-const search = query => {
-  const filteredCookies = _cookies.filter(cookie => )
-};
+const filteredCookies = props.cookies
+    .filter((cookie) => )
 ```
 
 2. We will use a method called `include` which is a JavaScript method. Let's take a look at the [documentation](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/includes).
@@ -148,36 +132,40 @@ const search = query => {
 3. As you can see, `includes` returns either `true` or `false`. So we will check if `cookie.name` `includes` the `query`:
 
 ```javascript
-const searchCookies = query => {
-  const filteredCookies = _cookies.filter(cookie =>
-    cookie.name.includes(query)
-  );
-  console.log("App -> filteredCookies", filteredCookies);
-};
+const filteredCookies = props.cookies
+    .filter((cookie) => cookie.name.includes(query))
+
+console.log("filteredCookies", filteredCookies)
 ```
 
-4. It's working!!! Now to see those changes, we will use `setCookies` and pass it `filteredCookies`:
+4. It's working!!! Now let's map over our `filteredCookies`:
 
 ```javascript
-const searchCookies = query => {
-  const filteredCookies = _cookies.filter(cookie =>
-    cookie.name.includes(query)
-  );
-  setCookies(filteredCookies);
-};
+const cookieList = filteredCookies.map((cookie) => (
+      <CookieItem
+        cookie={cookie}
+        key={cookie.id}
+        deleteCookie={props.deleteCookie}
+        selectCookie={props.selectCookie}
+      />
+    ));
 ```
 
 5. Now that's magic!!!
 
-6. But we have an issue.. if you delete the letters in the search bar, we're not getting our list back. Who can tell me why?
-
-7. That's because we're comparing to the already filtered list of cookies which is `_cookies`. We must **always** search through `cookies` which is the original list that we can't change:
+6. But let's do this in one line:
 
 ```javascript
-const searchCookies = query => {
-  const filteredCookies = cookies.filter(cookie => cookie.name.includes(query));
-  setCookies(filteredCookies);
-};
+const cookieList = props.cookies
+    .filter((cookie) => cookie.name.includes(query))
+    .map((cookie) => (
+      <CookieItem
+        cookie={cookie}
+        key={cookie.id}
+        deleteCookie={props.deleteCookie}
+        selectCookie={props.selectCookie}
+      />
+    ));
 ```
 
-9. Voila! We're done!
+7. Voila! We're done!
