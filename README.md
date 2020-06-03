@@ -60,10 +60,8 @@ import SearchBar from "./SearchBar";
 ```javascript
 const Search = styled.input`
   padding: 0.5rem;
-  margin-top: 10px;
+  margin: 1rem auto;
   display: block;
-  margin-left: auto;
-  margin-right: auto;
   width: 40%;
 `;
 ```
@@ -93,10 +91,10 @@ onChange={event => console.log(event.target.value)}
 
 ## Step 2: Query State
 
-1. What we'll do now is create a query state and method. Every time the user writes **anything** in the search bar the value will be saved in `query`. 
+1. What we'll do now is create a query state and method. Every time the user writes **anything** in the search bar the value will be saved in `query`.
 
 ```javascript
-  const [query, setQuery] = useState("");
+const [query, setQuery] = useState("");
 ```
 
 2. Now we will pass `setQuery` as a prop to `SearchBar`.
@@ -110,7 +108,7 @@ onChange={event => console.log(event.target.value)}
 ```jsx
 <Search
   placeholder="Search for a cookie name"
-  onChange={event => props.setQuery(event.target.value)}
+  onChange={(event) => props.setQuery(event.target.value)}
 />
 ```
 
@@ -132,23 +130,24 @@ const filteredCookies = props.cookies
 3. As you can see, `includes` returns either `true` or `false`. So we will check if `cookie.name` `includes` the `query`:
 
 ```javascript
-const filteredCookies = props.cookies
-    .filter((cookie) => cookie.name.includes(query))
+const filteredCookies = props.cookies.filter((cookie) =>
+  cookie.name.includes(query)
+);
 
-console.log("filteredCookies", filteredCookies)
+console.log("filteredCookies", filteredCookies);
 ```
 
 4. It's working!!! Now let's map over our `filteredCookies`:
 
 ```javascript
 const cookieList = filteredCookies.map((cookie) => (
-      <CookieItem
-        cookie={cookie}
-        key={cookie.id}
-        deleteCookie={props.deleteCookie}
-        selectCookie={props.selectCookie}
-      />
-    ));
+  <CookieItem
+    cookie={cookie}
+    key={cookie.id}
+    deleteCookie={props.deleteCookie}
+    selectCookie={props.selectCookie}
+  />
+));
 ```
 
 5. Now that's magic!!!
@@ -157,15 +156,15 @@ const cookieList = filteredCookies.map((cookie) => (
 
 ```javascript
 const cookieList = props.cookies
-    .filter((cookie) => cookie.name.includes(query))
-    .map((cookie) => (
-      <CookieItem
-        cookie={cookie}
-        key={cookie.id}
-        deleteCookie={props.deleteCookie}
-        selectCookie={props.selectCookie}
-      />
-    ));
+  .filter((cookie) => cookie.name.includes(query))
+  .map((cookie) => (
+    <CookieItem
+      cookie={cookie}
+      key={cookie.id}
+      deleteCookie={props.deleteCookie}
+      selectCookie={props.selectCookie}
+    />
+  ));
 ```
 
 7. Voila! We're done!
