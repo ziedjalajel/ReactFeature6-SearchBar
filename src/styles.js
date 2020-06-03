@@ -36,10 +36,8 @@ export const ListWrapper = styled.div`
 
 export const SearchBarStyled = styled.input`
   padding: 0.5rem;
-  margin-top: 10px;
+  margin: 1rem auto;
   display: block;
-  margin-left: auto;
-  margin-right: auto;
   width: 40%;
 `;
 
