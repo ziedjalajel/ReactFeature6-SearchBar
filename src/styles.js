@@ -41,6 +41,13 @@ export const SearchBarStyled = styled.input`
   width: 40%;
 `;
 
+export const ShopImage = styled.img`
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+`;
+
 export const ThemeButton = styled.button`
   font-size: 1em;
   margin: 1.25em;
@@ -52,11 +59,4 @@ export const ThemeButton = styled.button`
 
 export const Title = styled.h1`
   text-align: center;
-`;
-
-export const ShopImage = styled.img`
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 50%;
 `;

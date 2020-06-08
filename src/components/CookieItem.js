@@ -1,14 +1,10 @@
 import React from "react";
 
 // Styling
-import { CookieWrapper, DeleteButtonStyled } from "../styles";
+import { CookieWrapper } from "../styles";
 
 const CookieItem = (props) => {
   const cookie = props.cookie;
-
-  const handleDelete = () => {
-    props.deleteCookie(cookie.id);
-  };
 
   return (
     <CookieWrapper>
