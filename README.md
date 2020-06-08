@@ -58,7 +58,7 @@ import SearchBar from "./SearchBar";
 3. Let's create a styled component for it in `styles`:
 
 ```javascript
-const Search = styled.input`
+const SearchBarStyled = styled.input`
   padding: 0.5rem;
   margin: 1rem auto;
   display: block;
@@ -72,10 +72,10 @@ const Search = styled.input`
 import React from "react";
 
 // Styling
-import { Search } from "../styles";
+import { SearchBarStyled } from "../styles";
 
 const SearchBar = () => {
-  return <Search placeholder="Search for a cookie name" />;
+  return <SearchBarStyled placeholder="Search for a cookie name" />;
 };
 
 export default SearchBar;
@@ -106,7 +106,7 @@ const [query, setQuery] = useState("");
 3. In `SearchBar`, pass the method to `onChange`. Now every time the user types in anything, the value will be saved in `query`.
 
 ```jsx
-<Search
+<SearchBarStyled
   placeholder="Search for a cookie name"
   onChange={(event) => props.setQuery(event.target.value)}
 />
