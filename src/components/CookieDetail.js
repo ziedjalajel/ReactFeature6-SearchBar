@@ -1,17 +1,20 @@
 import React from "react";
-import { DeleteButton, DetailWrapper } from "../styles";
+import { DeleteButtonStyled, DetailWrapper } from "../styles";
 
-const CookieDetail = props => {
+const CookieDetail = (props) => {
   const cookie = props.cookie;
+
+  const handleDelete = () => {
+    props.deleteCookie(cookie.id);
+  };
+
   return (
     <DetailWrapper>
       <h1>{cookie.name}</h1>
       <img src={cookie.image} alt={cookie.name} />
       <p>{cookie.description}</p>
       <p>{cookie.price} KD</p>
-      <DeleteButton onClick={() => props.deleteCookie(cookie.id)}>
-        Delete
-      </DeleteButton>
+      <DeleteButtonStyled onClick={handleDelete}>Delete</DeleteButtonStyled>
     </DetailWrapper>
   );
 };
