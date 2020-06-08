@@ -168,3 +168,78 @@ const cookieList = props.cookies
 ```
 
 7. Voila! We're done!
+
+## Step 4 - Delete Button
+
+Something that's been bothering me is the delete button in `CookieDetail` and `CookieItem`. It's repeated! So why not put it in its own component?
+
+1. Create a new folder called `buttons` in `components`. In `buttons`, create a file called `DeleteButton.js`:
+
+```javascript
+import React from "react";
+
+const DeleteButton = () => {
+  return <div></div>;
+};
+
+export default DeleteButton;
+```
+
+2. Copy the delete button from `CookieDetail` or `CookieItem`. Don't forget to import `DeleteButtonStyled` styled component and fix the path
+
+```javascript
+import React from "react";
+import { DeleteButtonStyled } from "../../styles";
+
+const DeleteButton = (props) => {
+  const handleDelete = () => {
+    props.deleteCookie(cookie.id);
+  };
+
+  return <DeleteButtonStyled onClick={handleDelete}>Delete</DeleteButtonStyled>;
+};
+
+export default DeleteButton;
+```
+
+3. Import `DeleteButton` in `CookieDetail`:
+
+```javascript
+import DeleteButton from "./buttons/DeleteButton";
+```
+
+4. Replace `DeleteButtonStyled` with `DeleteButton`:
+
+```jsx
+  <p>{cookie.price} KD</p>
+  <DeleteButton />
+</DetailWrapper>
+```
+
+5. As you can see, we got an error that `cookie` is undefined. So we need to pass `cookie`, but since we only need the ID let's just pass `cookie.id`:
+
+```jsx
+<DeleteButton cookieId={cookie.id} />
+```
+
+6. Let's try deleting a cookie from its detail page, we got the following error: `props.deleteCookie is not a function`.
+
+7. We need to pass `deleteCookie` as a prop:
+
+```jsx
+<DeleteButton cookieId={cookie.id} deleteCookie={props.deleteCookie} />
+```
+
+8. It's working! Let's cleanup `CookieItem` as well. Import `DeleteButton`:
+
+```javascript
+import DeleteButton from "./buttons/DeleteButton";
+```
+
+9. Replace `DeleteButtonStyled` with `DeleteButton`:
+
+```jsx
+<DeleteButton cookieId={cookie.id} deleteCookie={props.deleteCookie} />
+```
+
+10. Let's try it put. It's working!
