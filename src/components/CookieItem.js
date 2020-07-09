@@ -19,7 +19,6 @@ const CookieItem = (props) => {
       />
       <p>{cookie.name}</p>
       <p className="cookie-price">{cookie.price} KD</p>
-      <DeleteButtonStyled onClick={handleDelete}>Delete</DeleteButtonStyled>
     </CookieWrapper>
   );
 };

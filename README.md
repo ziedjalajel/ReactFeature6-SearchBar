@@ -5,28 +5,17 @@
 **Topics to discuss:**
 
 - `onChange`
+- Passing state as a prop
 
 ## Step 0: Previous Challenge
 
-1. Let's start with adding a `p` tag above our cookie name:
+1. The word `Dark` in our button is not changing, it's weird to have it always saying `Dark Mode`. Let's give it a condition! If `theme` is equal to `light`, the return value of the conditional operator is `Dark`, else it will be `Light`.
 
 ```jsx
-<DetailWrapper>
-  <p>Back to Cookies</p>
-  <h1>{cookie.name}</h1>
+<ThemeButton onClick={toggleTheme}>
+  {theme === "light" ? "Dark" : "Light"} Mode
+</ThemeButton>
 ```
-
-2. To render the list of cookies, we need to set `cookie` to `null` or any value that gives us `false`. So we can easily pass `props.selectCookie` without passing anything to it, this will set `cookie` to `undefined` which is `false`.
-
-```jsx
-<DetailWrapper>
-  <p onClick={props.selectCookie}>Back to Cookies</p>
-  <h1>{cookie.name}</h1>
-```
-
-3. And that's it!
-
-Today, we'll be adding a search bar that `filters` our list of cookies with every letter we write in the search bar.
 
 ## Step 1: Adding a Search Bar
 
@@ -42,7 +31,7 @@ const SearchBar = () => {
 export default SearchBar;
 ```
 
-2. We will render it right above our cookies list in `CookieList`:
+2. We will render it right above our `ListWrapper` in `CookieList`:
 
 ```javascript
 import SearchBar from "./SearchBar";
@@ -97,7 +86,7 @@ onChange={event => console.log(event.target.value)}
 const [query, setQuery] = useState("");
 ```
 
-2. Now we will pass `setQuery` as a prop to `SearchBar`.
+2. So the `SearchBar` needs `setQuery` to change the value of `setQuery`. So we will pass `setQuery` as a prop to `SearchBar`.
 
 ```jsx
 <SearchBar setQuery={setQuery} />
@@ -130,9 +119,7 @@ const filteredCookies = props.cookies
 3. As you can see, `includes` returns either `true` or `false`. So we will check if `cookie.name` `includes` the `query`:
 
 ```javascript
-const filteredCookies = props.cookies.filter((cookie) =>
-  cookie.name.includes(query)
-);
+const filteredCookies = cookies.filter((cookie) => cookie.name.includes(query));
 
 console.log("filteredCookies", filteredCookies);
 ```
@@ -141,105 +128,37 @@ console.log("filteredCookies", filteredCookies);
 
 ```javascript
 const cookieList = filteredCookies.map((cookie) => (
-  <CookieItem
-    cookie={cookie}
-    key={cookie.id}
-    deleteCookie={props.deleteCookie}
-    selectCookie={props.selectCookie}
-  />
+  <CookieItem cookie={cookie} key={cookie.id} />
 ));
+console.log("cookieList", cookieList);
 ```
 
-5. Now that's magic!!!
+5. Let's test it out. Nothing happened... But if we check the console, our array is changing! We agreed that if we want to see our elements change dynamically we need to use state. So `cookies` must be a `state` to be interactive!
 
-6. But let's do this in one line:
+6. Our state will represent the cookies on the screen so we will call it cookies, but we already have a variable called cookies which is our data. We'll call our state \_cookies , and we'll set the initial value to cookies which has all our cookies.
 
 ```javascript
-const cookieList = props.cookies
+const [_cookies, setCookies] = useState(cookies);
+```
+
+7. Let's fix our `filter` method to use our state:
+
+```javascript
+const filteredCookies = _cookies.filter((cookie) =>
+  cookie.name.includes(query)
+);
+
+console.log("filteredCookies", filteredCookies);
+```
+
+8. Now that's magic!!!
+
+9. But let's do this in one line:
+
+```javascript
+const cookieList = _cookies
   .filter((cookie) => cookie.name.includes(query))
-  .map((cookie) => (
-    <CookieItem
-      cookie={cookie}
-      key={cookie.id}
-      deleteCookie={props.deleteCookie}
-      selectCookie={props.selectCookie}
-    />
-  ));
+  .map((cookie) => <CookieItem cookie={cookie} key={cookie.id} />);
 ```
 
-7. Voila! We're done!
-
-## Step 4 - Delete Button
-
-Something that's been bothering me is the delete button in `CookieDetail` and `CookieItem`. It's repeated! So why not put it in its own component?
-
-1. Create a new folder called `buttons` in `components`. In `buttons`, create a file called `DeleteButton.js`:
-
-```javascript
-import React from "react";
-
-const DeleteButton = () => {
-  return <div></div>;
-};
-
-export default DeleteButton;
-```
-
-2. Copy the delete button from `CookieDetail` or `CookieItem`. Don't forget to import `DeleteButtonStyled` styled component and fix the path
-
-```javascript
-import React from "react";
-import { DeleteButtonStyled } from "../../styles";
-
-const DeleteButton = (props) => {
-  const handleDelete = () => {
-    props.deleteCookie(cookie.id);
-  };
-
-  return <DeleteButtonStyled onClick={handleDelete}>Delete</DeleteButtonStyled>;
-};
-
-export default DeleteButton;
-```
-
-3. Import `DeleteButton` in `CookieDetail`:
-
-```javascript
-import DeleteButton from "./buttons/DeleteButton";
-```
-
-4. Replace `DeleteButtonStyled` with `DeleteButton`:
-
-```jsx
-  <p>{cookie.price} KD</p>
-  <DeleteButton />
-</DetailWrapper>
-```
-
-5. As you can see, we got an error that `cookie` is undefined. So we need to pass `cookie`, but since we only need the ID let's just pass `cookie.id`:
-
-```jsx
-<DeleteButton cookieId={cookie.id} />
-```
-
-6. Let's try deleting a cookie from its detail page, we got the following error: `props.deleteCookie is not a function`.
-
-7. We need to pass `deleteCookie` as a prop:
-
-```jsx
-<DeleteButton cookieId={cookie.id} deleteCookie={props.deleteCookie} />
-```
-
-8. It's working! Let's cleanup `CookieItem` as well. Import `DeleteButton`:
-
-```javascript
-import DeleteButton from "./buttons/DeleteButton";
-```
-
-9. Replace `DeleteButtonStyled` with `DeleteButton`:
-
-```jsx
-<DeleteButton cookieId={cookie.id} deleteCookie={props.deleteCookie} />
-```
-
-10. Let's try it put. It's working!
+8. Voila! We're done!

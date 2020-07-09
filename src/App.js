@@ -2,11 +2,7 @@ import React, { useState } from "react";
 import { ThemeProvider } from "styled-components";
 
 // Components
-import CookieDetail from "./components/CookieDetail";
 import CookieList from "./components/CookieList";
-
-// Data
-import cookies from "./cookies";
 
 // Styling
 import {
@@ -34,35 +30,9 @@ const theme = {
 
 function App() {
   const [currentTheme, setCurrentTheme] = useState("light");
-  const [cookie, setCookie] = useState(null);
-  const [_cookies, setCookies] = useState(cookies);
-
-  const deleteCookie = (cookieId) => {
-    const updatedCookies = _cookies.filter((cookie) => cookie.id !== +cookieId);
-    setCookies(updatedCookies);
-    setCookie(null);
-  };
-
-  const selectCookie = (cookieId) => {
-    const selectedCookie = cookies.find((cookie) => cookie.id === cookieId);
-    setCookie(selectedCookie);
-  };
 
   const toggleTheme = () =>
     setCurrentTheme(currentTheme === "light" ? "dark" : "light");
-
-  const setView = () => {
-    if (cookie)
-      return <CookieDetail cookie={cookie} deleteCookie={deleteCookie} />;
-
-    return (
-      <CookieList
-        cookies={_cookies}
-        selectCookie={selectCookie}
-        deleteCookie={deleteCookie}
-      />
-    );
-  };
 
   return (
     <ThemeProvider theme={theme[currentTheme]}>
@@ -70,15 +40,15 @@ function App() {
       <ThemeButton onClick={toggleTheme}>
         {currentTheme === "light" ? "Dark" : "Light"} Mode
       </ThemeButton>
-      <>
+      <div>
         <Title>Cookies and Beyond</Title>
         <Description>Where cookie maniacs gather</Description>
         <ShopImage
           alt="cookie shop"
           src="https://i.pinimg.com/originals/8f/cf/71/8fcf719bce331fe39d7e31ebf07349f3.jpg"
         />
-      </>
-      {setView()}
+      </div>
+      <CookieList />
     </ThemeProvider>
   );
 }
