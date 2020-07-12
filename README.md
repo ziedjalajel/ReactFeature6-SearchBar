@@ -80,7 +80,7 @@ onChange={event => console.log(event.target.value)}
 
 ## Step 2: Query State
 
-1. What we'll do now is create a query state and method. Every time the user writes **anything** in the search bar the value will be saved in `query`.
+1. What we'll do now is create a query state and method in `CookieList`. Every time the user writes **anything** in the search bar the value will be saved in `query`.
 
 ```javascript
 const [query, setQuery] = useState("");
@@ -135,7 +135,7 @@ console.log("cookieList", cookieList);
 
 5. Let's test it out. Nothing happened... But if we check the console, our array is changing! We agreed that if we want to see our elements change dynamically we need to use state. So `cookies` must be a `state` to be interactive!
 
-6. Our state will represent the cookies on the screen so we will call it cookies, but we already have a variable called cookies which is our data. We'll call our state \_cookies , and we'll set the initial value to cookies which has all our cookies.
+6. Our state will represent the cookies on the screen so we will call it cookies, but we already have a variable called cookies which is our data. We'll call our state `_cookies`, and we'll set the initial value to `cookies` which has all our cookies.
 
 ```javascript
 const [_cookies, setCookies] = useState(cookies);
