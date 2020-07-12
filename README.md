@@ -1,4 +1,4 @@
-# Cookie Detail
+# Search Bar
 
 ## Discussion
 
