@@ -1,17 +1,11 @@
-import React, { useState } from "react";
-import { ThemeProvider } from "styled-components";
-
-// Components
-import CookieList from "./components/CookieList";
-
 // Styling
-import {
-  Description,
-  GlobalStyle,
-  ShopImage,
-  ThemeButton,
-  Title,
-} from "./styles";
+import { GlobalStyle, ThemeButton } from "./styles";
+
+import Home from "./components/Home";
+// Components
+import ProductList from "./components/ProductList";
+import { ThemeProvider } from "styled-components";
+import { useState } from "react";
 
 const theme = {
   light: {
@@ -40,15 +34,8 @@ function App() {
       <ThemeButton onClick={toggleTheme}>
         {currentTheme === "light" ? "Dark" : "Light"} Mode
       </ThemeButton>
-      <div>
-        <Title>Cookies and Beyond</Title>
-        <Description>Where cookie maniacs gather</Description>
-        <ShopImage
-          alt="cookie shop"
-          src="https://i.pinimg.com/originals/8f/cf/71/8fcf719bce331fe39d7e31ebf07349f3.jpg"
-        />
-      </div>
-      <CookieList />
+      <Home />
+      <ProductList />
     </ThemeProvider>
   );
 }
